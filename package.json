@@ -1,23 +1,16 @@
 {
-  "name": "wf2022",
-  "version": "1.0.0",
-  "description": "Year 3 Web Frameworks Project 2022",
-  "main": "index.js",
+  "name": "app",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/darefjev44/WF-Project-2022.git"
-  },
-  "author": "Daniel Arefjev",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/darefjev44/WF-Project-2022/issues"
-  },
-  "homepage": "https://github.com/darefjev44/WF-Project-2022#readme",
   "dependencies": {
-    "express": "^4.18.1",
-    "pug": "^3.0.2"
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "pug": "2.0.0-beta11"
   }
 }
