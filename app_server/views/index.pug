@@ -1,5 +1,50 @@
-extends layout
+extends mainlayout
 
+block navigation
+  ul.navbar-nav.ms-auto.me-2
+        li.nav-item
+          a.nav-link.d-flex.align-items.center.info-icon
+            img(src='/images/info-circle.svg', style='width: 1.5rem;')
+            span.info-text
+              | IBAN: 1287381923
+              | BIC: 21982374234
+              | Click to copy!
+        li.nav-item
+          a.btn.btn-light(href='/login') Sign Out
 block content
-  h1= title
-  p Welcome to #{title}
+  .container.mt-3
+    .text-center
+      h2
+        strong Welcome, FirstName LastName
+      p.text-muted Your balance is EUR00.00.
+    .col.mb-5
+      table.table
+        thead
+          tr
+            th.text-center(scope='col', colspan='3') Recent Activity 
+        tbody 
+          tr 
+            th(rowspan='2') Today
+            td Tesco
+            td.activityAmount -$24.23
+          tr
+            td AMZN
+            td.activityAmount -$66.44
+          tr
+            th Yesterday
+            td 11 transactions...
+            td.activityAmount -$66.44
+          - n = 0
+          while n < 10
+            - ++n
+            tr
+              th
+                != 31-n + ' Sept'
+              td NAME
+              td.activityAmount
+                - var amount = Math.random() * 400 - 200;
+                != '€' + amount.toFixed(2)
+    .col.mb-2
+    .col.mb-5
+
+

@@ -1,0 +1,39 @@
+.pin-digit:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.pin-digit:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left-width: 0;
+}
+
+.pin-digit:not(:first-child):not(:last-child) {
+    border-radius: 0;
+    border-left-width: 0;
+}
+
+.pin-digit {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.info-text {
+    display: none;
+    background-color: rgb(175, 175, 175);
+    color: rgb(0, 0, 0);
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    width: 10rem;
+    margin-left: -10rem;
+    margin-top: 1.5rem;
+    position: absolute;
+    z-index: 1;
+}
+
+.info-icon:hover .info-text {
+    display: block;
+}

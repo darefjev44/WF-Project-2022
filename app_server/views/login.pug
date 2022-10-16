@@ -1,0 +1,24 @@
+extends landinglayout
+
+block content
+  p.text-muted.text-center Enter your User ID and the remaining PIN digits to sign in.
+  .container
+    .row.d-flex.justify-content-center
+      .col-md-6.col-xl-4
+        .card-body.text-center.d-flex.flex-column.align-items-center
+          form(action='./')
+            .mb-2
+              label.form-label(for='userid') User ID
+              input.form-control(type='text' name='userid')
+            .mb-2
+              label.form-label(for='pin') PIN Code
+              - var n = 0;
+              .d-flex.justify-content-center.pin-container
+                while n < 5
+                  - ++n
+                    input.form-control.pin-digit(type='password', maxlength="1")
+            .mb-2
+              button.btn.btn-primary.shadow.d-block.w-100(type='submit') Sign In
+    // TODO
+      JS to ensure only numbers are entered, automatically tab to next uncomplete digit.
+      Pick 3 random required digits, set other 3 to disabled.
