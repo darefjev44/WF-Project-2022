@@ -47,7 +47,7 @@ class Transaction:
         self.amount = amount
     def __str__(self):
         str = f'''
-        date: ISODate("{self.date}"),
+        date: "{self.date}",
         desc: "{self.desc}",
         amount: {self.amount}'''
         return str
@@ -92,7 +92,7 @@ for i in range(amount):
         if(j != 0): #date
             transDate = transDate-datetime.timedelta(random.randint(int(dateVariance[0]), int(dateVariance[1])))
         transDesc = random.choice(transDescs)
-        transAmt = round(random.uniform(-400, 400), 2)
+        transAmt = round(random.uniform(-100, 0), 2)
         transactions.append(Transaction(transDate.isoformat(), transDesc, transAmt))
     accounts.append(Account(firstName, lastName, accId, 123456, 'IE64BAPP00000000'+str(accId), 'DABNKAPP', transactions))
 

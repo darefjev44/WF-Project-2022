@@ -1,4 +1,6 @@
+extends landinglayout
+
 block content
-  h1= message
-  h2= error.status
+  h1 #{error.status}
+  h2 #{error.message}
   pre #{error.stack}

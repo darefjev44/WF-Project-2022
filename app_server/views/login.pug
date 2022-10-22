@@ -12,11 +12,20 @@ block content
               input.form-control(type='text' name='userid')
             .mb-2
               label.form-label(for='pin') PIN Code
-              - var n = 0;
+              - var rand
+              - var required = []
+              while required.length < 3
+                - rand = Math.floor(Math.random() * 6)
+                unless required.includes(rand)
+                  - required.push(rand)
+              - var n = 0
               .d-flex.justify-content-center.pin-container
-                while n < 5
-                  - ++n
+                while n < 6
+                  if(required.includes(n))
+                    input.form-control.pin-digit(type='password', maxlength="1", disabled, value = " ")
+                  else
                     input.form-control.pin-digit(type='password', maxlength="1")
+                  - ++n
             .mb-2
               button.btn.btn-primary.shadow.d-block.w-100(type='submit') Sign In
     // TODO

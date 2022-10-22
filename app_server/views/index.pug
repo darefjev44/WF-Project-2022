@@ -15,8 +15,8 @@ block content
   .container.mt-3
     .text-center
       h2
-        strong Welcome, FirstName LastName
-      p.text-muted Your balance is EUR00.00.
+        strong Welcome, #{account.firstName} #{account.lastName}
+      p.text-muted Your balance is €#{account.balance}
     .col.mb-5
       table.table
         thead

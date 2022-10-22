@@ -1,0 +1,336 @@
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// Select the database to use.
+use('bankAppDB');
+
+db.accounts.deleteMany({})
+db.accounts.insertMany([{
+firstName: "Karen",
+lastName: "Cooper",
+accountID: 600000,
+PIN: 123456,
+IBAN: "IE64BAPP00000000600000",
+BIC: "DABNKAPP",
+transactions: 
+    [
+		{
+        date: ISODate("2022-10-22"),
+        desc: "ALDI",
+        amount: -79.43
+		},{
+        date: ISODate("2022-10-21"),
+        desc: "PAYPAL",
+        amount: -18.46
+		},{
+        date: ISODate("2022-10-21"),
+        desc: "ITTRALEE",
+        amount: -44.81
+		},{
+        date: ISODate("2022-10-21"),
+        desc: "PAYPAL",
+        amount: -36.63
+		},{
+        date: ISODate("2022-10-20"),
+        desc: "SUPERVALU",
+        amount: -69.85
+		},{
+        date: ISODate("2022-10-17"),
+        desc: "PAYPAL",
+        amount: -82.39
+		},{
+        date: ISODate("2022-10-16"),
+        desc: "LIDL",
+        amount: -52.05
+		},{
+        date: ISODate("2022-10-13"),
+        desc: "ALDI",
+        amount: -86.22
+		},{
+        date: ISODate("2022-10-12"),
+        desc: "LIDL",
+        amount: -94.07
+		},{
+        date: ISODate("2022-10-10"),
+        desc: "SUPERVALU",
+        amount: -9.29
+		},{
+        date: ISODate("2022-10-10"),
+        desc: "PAYPAL",
+        amount: -46.66
+		},{
+        date: ISODate("2022-10-10"),
+        desc: "LIDL",
+        amount: -85.81
+		},{
+        date: ISODate("2022-10-08"),
+        desc: "DUNNES",
+        amount: -19.65
+		},{
+        date: ISODate("2022-10-05"),
+        desc: "DUNNES",
+        amount: -84.47
+		},{
+        date: ISODate("2022-10-03"),
+        desc: "PAYPAL",
+        amount: -66.19
+		},{
+        date: ISODate("2022-09-30"),
+        desc: "SUPERVALU",
+        amount: -75.78
+		},{
+        date: ISODate("2022-09-29"),
+        desc: "SUPERVALU",
+        amount: -96.46
+		},{
+        date: ISODate("2022-09-26"),
+        desc: "ITTRALEE",
+        amount: -96.34
+		}
+	]},{
+firstName: "Justin",
+lastName: "Collins",
+accountID: 600001,
+PIN: 123456,
+IBAN: "IE64BAPP00000000600001",
+BIC: "DABNKAPP",
+transactions: 
+    [
+		{
+        date: ISODate("2022-10-22"),
+        desc: "ITTRALEE",
+        amount: -76.71
+		},{
+        date: ISODate("2022-10-19"),
+        desc: "TESCO",
+        amount: -3.32
+		},{
+        date: ISODate("2022-10-18"),
+        desc: "ALDI",
+        amount: -94.79
+		},{
+        date: ISODate("2022-10-16"),
+        desc: "AMZN",
+        amount: -57.37
+		},{
+        date: ISODate("2022-10-13"),
+        desc: "PAYPAL",
+        amount: -22.83
+		},{
+        date: ISODate("2022-10-13"),
+        desc: "AMZN",
+        amount: -37.09
+		},{
+        date: ISODate("2022-10-12"),
+        desc: "LIDL",
+        amount: -32.29
+		},{
+        date: ISODate("2022-10-10"),
+        desc: "AMZN",
+        amount: -46.77
+		},{
+        date: ISODate("2022-10-08"),
+        desc: "ITTRALEE",
+        amount: -72.83
+		},{
+        date: ISODate("2022-10-05"),
+        desc: "LIDL",
+        amount: -50.62
+		},{
+        date: ISODate("2022-10-03"),
+        desc: "LIDL",
+        amount: -44.28
+		},{
+        date: ISODate("2022-10-02"),
+        desc: "PAYPAL",
+        amount: -79.12
+		},{
+        date: ISODate("2022-09-29"),
+        desc: "AMZN",
+        amount: -9.95
+		},{
+        date: ISODate("2022-09-29"),
+        desc: "TESCO",
+        amount: -39.8
+		},{
+        date: ISODate("2022-09-29"),
+        desc: "SUPERVALU",
+        amount: -5.72
+		},{
+        date: ISODate("2022-09-27"),
+        desc: "AMZN",
+        amount: -45.08
+		}
+	]},{
+firstName: "Kathleen",
+lastName: "Phillips",
+accountID: 600002,
+PIN: 123456,
+IBAN: "IE64BAPP00000000600002",
+BIC: "DABNKAPP",
+transactions: 
+    [
+		{
+        date: ISODate("2022-10-22"),
+        desc: "SUPERVALU",
+        amount: -60.6
+		},{
+        date: ISODate("2022-10-22"),
+        desc: "LIDL",
+        amount: -55.02
+		},{
+        date: ISODate("2022-10-20"),
+        desc: "ITTRALEE",
+        amount: -91.29
+		},{
+        date: ISODate("2022-10-17"),
+        desc: "ITTRALEE",
+        amount: -31.2
+		},{
+        date: ISODate("2022-10-17"),
+        desc: "TESCO",
+        amount: -93.76
+		},{
+        date: ISODate("2022-10-17"),
+        desc: "AMZN",
+        amount: -72.91
+		},{
+        date: ISODate("2022-10-17"),
+        desc: "ITTRALEE",
+        amount: -68.52
+		},{
+        date: ISODate("2022-10-14"),
+        desc: "PAYPAL",
+        amount: -79.85
+		},{
+        date: ISODate("2022-10-11"),
+        desc: "TESCO",
+        amount: -1.66
+		},{
+        date: ISODate("2022-10-11"),
+        desc: "PAYPAL",
+        amount: -93.08
+		}
+	]},{
+firstName: "Angela",
+lastName: "Harris",
+accountID: 600003,
+PIN: 123456,
+IBAN: "IE64BAPP00000000600003",
+BIC: "DABNKAPP",
+transactions: 
+    [
+		{
+        date: ISODate("2022-10-22"),
+        desc: "ALDI",
+        amount: -29.01
+		},{
+        date: ISODate("2022-10-21"),
+        desc: "SUPERVALU",
+        amount: -21.4
+		},{
+        date: ISODate("2022-10-21"),
+        desc: "TESCO",
+        amount: -42.92
+		},{
+        date: ISODate("2022-10-19"),
+        desc: "SUPERVALU",
+        amount: -75.76
+		},{
+        date: ISODate("2022-10-19"),
+        desc: "ALDI",
+        amount: -56.58
+		},{
+        date: ISODate("2022-10-19"),
+        desc: "DUNNES",
+        amount: -82.67
+		},{
+        date: ISODate("2022-10-16"),
+        desc: "AMZN",
+        amount: -16.66
+		},{
+        date: ISODate("2022-10-13"),
+        desc: "PAYPAL",
+        amount: -38.17
+		},{
+        date: ISODate("2022-10-12"),
+        desc: "ALDI",
+        amount: -2.06
+		},{
+        date: ISODate("2022-10-09"),
+        desc: "DUNNES",
+        amount: -30.46
+		},{
+        date: ISODate("2022-10-06"),
+        desc: "ALDI",
+        amount: -90.29
+		}
+	]},{
+firstName: "Laura",
+lastName: "Price",
+accountID: 600004,
+PIN: 123456,
+IBAN: "IE64BAPP00000000600004",
+BIC: "DABNKAPP",
+transactions: 
+    [
+		{
+        date: ISODate("2022-10-22"),
+        desc: "AMZN",
+        amount: -42.07
+		},{
+        date: ISODate("2022-10-19"),
+        desc: "AMZN",
+        amount: -4.98
+		},{
+        date: ISODate("2022-10-18"),
+        desc: "TESCO",
+        amount: -87.46
+		},{
+        date: ISODate("2022-10-17"),
+        desc: "DUNNES",
+        amount: -16.64
+		},{
+        date: ISODate("2022-10-14"),
+        desc: "DUNNES",
+        amount: -95.15
+		},{
+        date: ISODate("2022-10-13"),
+        desc: "LIDL",
+        amount: -5.66
+		},{
+        date: ISODate("2022-10-12"),
+        desc: "AMZN",
+        amount: -11.59
+		},{
+        date: ISODate("2022-10-09"),
+        desc: "SUPERVALU",
+        amount: -29.39
+		},{
+        date: ISODate("2022-10-09"),
+        desc: "TESCO",
+        amount: -56.94
+		},{
+        date: ISODate("2022-10-08"),
+        desc: "DUNNES",
+        amount: -49.4
+		},{
+        date: ISODate("2022-10-06"),
+        desc: "PAYPAL",
+        amount: -67.58
+		},{
+        date: ISODate("2022-10-03"),
+        desc: "DUNNES",
+        amount: -18.33
+		},{
+        date: ISODate("2022-10-03"),
+        desc: "DUNNES",
+        amount: -44.73
+		},{
+        date: ISODate("2022-10-01"),
+        desc: "TESCO",
+        amount: -51.93
+		}
+	]}])
