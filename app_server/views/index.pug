@@ -6,8 +6,10 @@ block navigation
           a.nav-link.d-flex.align-items.center.info-icon
             img(src='/images/info-circle.svg', style='width: 1.5rem;')
             span.info-text
-              | IBAN: 1287381923
-              | BIC: 21982374234
+              | IBAN: #{account.IBAN}
+              br
+              | BIC: #{account.BIC}
+              br
               | Click to copy!
         li.nav-item
           a.btn.btn-light(href='/login') Sign Out
@@ -22,29 +24,34 @@ block content
         thead
           tr
             th.text-center(scope='col', colspan='3') Recent Activity 
-        tbody 
-          tr 
-            th(rowspan='2') Today
-            td Tesco
-            td.activityAmount -$24.23
-          tr
-            td AMZN
-            td.activityAmount -$66.44
-          tr
-            th Yesterday
-            td 11 transactions...
-            td.activityAmount -$66.44
-          - n = 0
-          while n < 10
-            - ++n
-            tr
-              th
-                != 31-n + ' Sept'
-              td NAME
-              td.activityAmount
-                - var amount = Math.random() * 400 - 200;
-                != '€' + amount.toFixed(2)
+        tbody
+          - var today = transactionsJS.today;
+          - var yesterday = transactionsJS.yesterday;
+          - var latestTransDate = new Date(account.transactions[0].date);
+          - var todayCount = 0;
+          //handling today's transactions
+          if transactionsJS.datesMatching(today, yesterday)
+            //first count the amount of transactions today
+            each transaction in account.transactions
+              - transDate = new Date(transaction.date);
+              if transaction.date.getTime() === today.getTime()
+                - ++todayCount;
+              else
+                - break; //transactions *should* be in order, so we can break as soon as we find one that isn't today's.
+            //now lets display them
+            - var firstDone = true; //th only needed once
+            - var transValue;
+            each transaction in account.transactions
+              if firstDone
+                th(rowspan='#{todayCount}') Today
+                firstDone = false
+              td #{transaction.desc}
+              - transValue = transaction.value
+              if transValue < 0
+                td.text-danger €-#{transValue}
+              else if transValue === 0
+                td.text-muted €#{transValue}
+              else
+                td.text-muted €+#{transValue}
     .col.mb-2
     .col.mb-5
-
-
