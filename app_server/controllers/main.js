@@ -9,11 +9,11 @@ const register = function(req, res){
 }
 
 /* JS providing functions for displaying transactions */
-const transactionsJS = require('../../public/javascripts/transactions.js')
+const transactions = require('../../public/javascripts/transactions.js')
 /* GET 'home' page */
 const home = function(req, res){ 
     res.render('index', {
-        transactionsJS: transactionsJS,
+        transactionsJS: transactions,
         title: 'Home',
         account: {
             firstName: "Margaret",
