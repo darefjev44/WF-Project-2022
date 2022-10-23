@@ -25,21 +25,21 @@ const home = function(req, res){
             balance: 523.23,
             transactions: [
                 {
-                    date: "2022-10-22",
+                    date: "2022-10-23",
                     desc: "LIDL",
                     value: -9.03
                 },
                 {
-                    date: "2022-10-22",
+                    date: "2022-10-23",
                     desc: "AMZN",
                     value: -23.23
                 },
                 {
-                    date: "2022-10-22",
+                    date: "2022-10-23",
                     desc: "TESCO",
                     value: -22.34
                 },{
-                    date: "2022-10-21",
+                    date: "2022-10-22",
                     desc: "LIDL",
                     value: -80.08
                 },{

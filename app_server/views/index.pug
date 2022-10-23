@@ -26,7 +26,7 @@ block content
             th.text-center(scope='col', colspan='3') Recent Activity 
         tbody
           - var todayCount = 0;
-          //handling today's transactions
+          - //handling today's transactions
           - console.log(transactionsJS.today())
           - console.log(account.transactions[0].date)
           if transactionsJS.today() === account.transactions[0].date
@@ -71,7 +71,6 @@ block content
                   }
                 });
               - //if it does, merge the values of the transactions, set name to contain amount of transactions
-              - console.log(existingIndex)
               if existingIndex >= 0
                 -
                   remainingTrans[existingIndex].value += transaction.value;
@@ -84,7 +83,7 @@ block content
                     desc: transaction.desc,
                     value: transaction.value,
                     count: 1 });
-          //finally, display the remaining transactions.
+          - //finally, display the remaining transactions.
           each transaction in remainingTrans
             tr
               - var transDateStr = transactionsJS.dateDayOrdinal(transaction.date) + " " + transactionsJS.dateMonthLong(transaction.date).slice(0, 3);
