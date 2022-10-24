@@ -62,3 +62,7 @@ typings/
 
 # txt file containing DB connection string
 connectionstring.txt
+
+# old files
+mainlayout.old
+index.old

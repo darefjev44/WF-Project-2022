@@ -1,11 +1,15 @@
 /* GET 'login' page */
 const login = function(req, res){
-    res.render('login', { title: 'Sign In'});
+    res.render('login', {
+        name: 'BankApp',
+        title: 'Sign In'});
 }
 
-/* GET 'register' page */
-const register = function(req, res){
-    res.render('register', { title: 'Register'});
+/* GET 'admin' page */
+const admin = function(req, res){
+    res.render('admin', {
+        name: 'BankApp', 
+        title: 'admin'});
 }
 
 /* JS providing functions for displaying transactions */
@@ -14,6 +18,7 @@ const transactions = require('../../public/javascripts/transactions.js')
 const home = function(req, res){ 
     res.render('index', {
         transactionsJS: transactions,
+        name: 'BankApp',
         title: 'Home',
         account: {
             firstName: "Margaret",
@@ -25,21 +30,21 @@ const home = function(req, res){
             balance: 523.23,
             transactions: [
                 {
-                    date: "2022-10-23",
+                    date: "2022-10-24",
                     desc: "LIDL",
                     value: -9.03
                 },
                 {
-                    date: "2022-10-23",
+                    date: "2022-10-24",
                     desc: "AMZN",
                     value: -23.23
                 },
                 {
-                    date: "2022-10-23",
+                    date: "2022-10-24",
                     desc: "TESCO",
                     value: -22.34
                 },{
-                    date: "2022-10-22",
+                    date: "2022-10-23",
                     desc: "LIDL",
                     value: -80.08
                 },{
@@ -106,6 +111,6 @@ const home = function(req, res){
 
 module.exports = { 
     login,
-    register,
+    admin,
     home 
 };

@@ -1,16 +1,46 @@
-extends landinglayout
+extends landing-layout
 
 block content
-  p.text-muted.text-center Enter your User ID and the remaining PIN digits to sign in.
-  .container
-    .row.d-flex.justify-content-center
-      .col-md-6.col-xl-4
-        .card-body.text-center.d-flex.flex-column.align-items-center
-          form(action='./')
-            .mb-2
+  script.
+    //go to next non disabled input on input, ensure only digit entered - wrote this prior to installing jquery to keep my sanity
+    document.onreadystatechange = function () {
+      if (document.readyState === 'complete') {
+        var pinInputs = document.querySelectorAll('.pin-digit');
+        for(var i = 0; i < pinInputs.length; i++){
+            pinInputs[i].addEventListener("keyup", function() {
+              var ch = this.value;
+              if(ch >= '0' && ch <= '9'){ //ensure it's a digit
+                var next; //if it is, go to the next non-disabled pin input
+                if(this.nextSibling){
+                  next = this.nextSibling;
+                  while(next){
+                    if(next.disabled){
+                      next = next.nextSibling;
+                    } else {
+                      next.focus();
+                      return;
+                    }
+                  }
+                }
+              } else { //delete input if it's not a digit
+                this.value = '';
+              }
+            }
+            )
+        }
+      }
+    }
+  .row.d-flex.justify-content-center
+    .col-12.col-md-8.col-lg-6
+      .card.bg-white
+        .card-body.p-5
+          form#loginform(action='/')
+            p.text-center.text-muted Enter your User ID and the remaining PIN digits to sign in.
+            .mb-3
               label.form-label(for='userid') User ID
-              input.form-control(type='text' name='userid')
-            .mb-2
+              input.form-control(type='text' id='userid' name='userid')
+              .invalid-feedback Invalid or incorrect User ID.
+            .mb-4
               label.form-label(for='pin') PIN Code
               - var rand
               - var required = []
@@ -26,8 +56,35 @@ block content
                   else
                     input.form-control.pin-digit(type='password', maxlength="1")
                   - ++n
-            .mb-2
-              button.btn.btn-primary.shadow.d-block.w-100(type='submit') Sign In
-    // TODO
-      JS to ensure only numbers are entered, automatically tab to next uncomplete digit.
-      Pick 3 random required digits, set other 3 to disabled.
+              .invalid-feedback#pin-feedback Invalid PIN.
+            button.btn.btn-primary.shadow.d-block.w-100(type='submit') Sign In
+            script.
+              $(".btn-primary").click(function(e) {
+                var isValid = true;
+                $("#loginform :input[type=text]").each(function() {
+                  if(this.value == ""){
+                    $(this).addClass('is-invalid');
+                    isValid = false;
+                    e.preventDefault();
+                  } else {
+                    $(this).removeClass('is-invalid');
+                  }
+                })
+                $("#loginform :input[type=password]").each(function() {
+                  if(this.value == ""){
+                    $(this).addClass('is-invalid');
+                    $("#pin-feedback").show();
+                    isValid = false;
+                    e.preventDefault();
+                  } else {
+                    $(this).removeClass('is-invalid');
+                  }
+                })
+                
+                //shouldn't be here obviously, just for demonstration.
+                if(isValid && ($("#userid").val() == 'admin')){
+                  $("#loginform").attr('action', '/admin');
+                } else if (isValid) {
+                  $("#loginform").attr('action', '/');
+                }
+              });

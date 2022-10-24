@@ -1,34 +1,51 @@
-extends mainlayout
+extends main-layout.pug
 
-block navigation
-  ul.navbar-nav.ms-auto.me-2
-        li.nav-item
-          a.nav-link.d-flex.align-items.center.info-icon
-            img(src='/images/info-circle.svg', style='width: 1.5rem;')
-            span.info-text
-              | IBAN: #{account.IBAN}
-              br
-              | BIC: #{account.BIC}
-              br
-              | Click to copy!
-        li.nav-item
-          a.btn.btn-light(href='/login') Sign Out
+mixin tableAmountTd(value)
+  - value = value.toFixed(2);
+  if value < 0
+    td.text-danger.tableAmnt €#{value}
+  else if transValue === 0
+    td.text-muted.tableAmnt €#{value}
+  else
+    td.text-success.tableAmnt €+#{value}
+
+block headextras
+  script.
+    var detailsStr
+    //had to do it this way, prior to having jquery set up.
+    document.onreadystatechange = function () {
+      if (document.readyState === 'complete') {
+        var tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        var tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+      }
+    }
+block navigation 
+  li.nav-item.d-inline.align-middle.me-2.accountinfo
+    script.
+      function copyDetails(iban, bic){
+        var detailsStr =
+          `My details are: 
+          IBAN: ${iban}
+          BIC: ${bic}`;
+        navigator.clipboard.writeText(detailsStr);
+      }
+    - var tooltipText = "<span class='ttInfo'>IBAN: " + account.IBAN + "</br> BIC: " + account.BIC + "</span><br>Click to copy!"
+    - var onclickevent = "copyDetails('" + account.IBAN + "','" + account.BIC + "');" //very dumb workaround, function isn't of scope of account/whatever other data from the controller. 
+    i.fa.fa-info-circle.nav-link#infoIcon(onclick=onclickevent data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title=tooltipText data-bs-html="true" data-bs-custom-class="ttClass")
 block content
-  .container.mt-3
+  .col-md-6
     .text-center
       h2
-        strong Welcome, #{account.firstName} #{account.lastName}
-      p.text-muted Your balance is €#{account.balance}
+        strong Welcome, #{account.firstName} #{account.lastName}.
+      p.text-muted Your balance is €#{account.balance}.
     .col.mb-5
-      table.table
+      table.table.table-bordered
         thead
           tr
             th.text-center(scope='col', colspan='3') Recent Activity 
         tbody
           - var todayCount = 0;
           - //handling today's transactions
-          - console.log(transactionsJS.today())
-          - console.log(account.transactions[0].date)
           if transactionsJS.today() === account.transactions[0].date
             - //first count the amount of transactions today
             each transaction in account.transactions
@@ -47,13 +64,7 @@ block content
                   th(rowspan=todayCount) Today
                   - firstDone = true
                 td #{account.transactions[n].desc}
-                - transValue = account.transactions[n].value
-                if transValue < 0
-                  td.text-danger €#{transValue}
-                else if transValue === 0
-                  td.text-muted €#{transValue}
-                else
-                  td.text-muted €+#{transValue}
+                +tableAmountTd(account.transactions[n].value)
           - //handling the rest
           - //if a transaction happened more than once on a date, merge and display count instead.
           - var remainingTrans = []
@@ -86,13 +97,10 @@ block content
           - //finally, display the remaining transactions.
           each transaction in remainingTrans
             tr
-              - var transDateStr = transactionsJS.dateDayOrdinal(transaction.date) + " " + transactionsJS.dateMonthLong(transaction.date).slice(0, 3);
-              th #{transDateStr}
-              td #{transaction.desc}
-              - var transValue = transaction.value
-              if transValue < 0
-                td.text-danger €#{transValue}
-              else if transValue === 0
-                td.text-muted €#{transValue}
+              if transaction.date == transactionsJS.yesterday()
+                th Yesterday
               else
-                td.text-muted €+#{transValue}
+                - var transDateStr = transactionsJS.dateDayOrdinal(transaction.date) + " " + transactionsJS.dateMonthLong(transaction.date).slice(0, 3);
+                th #{transDateStr}
+              td #{transaction.desc}
+              +tableAmountTd(transaction.value)

@@ -5,22 +5,27 @@ from tracemalloc import start
 import os
 
 class Account:
-    def __init__(self, firstName, lastName, accountID, PIN, IBAN, BIC, transactions):
+    def __init__(self, firstName, lastName, accountID, PIN, IBAN, BIC, balance, transactions):
         self.firstName = firstName
         self.lastName = lastName
         self.accountID = accountID
         self.PIN = PIN
         self.IBAN = IBAN
         self.BIC = BIC
+        self.balance = balance
         self.transactions = transactions
     def __str__(self):
         str = f'''{{
 firstName: "{self.firstName}",
 lastName: "{self.lastName}",
+address: "123 Street",
+town: "Tralee",
+county: "Co. County",
 accountID: {self.accountID},
 PIN: {self.PIN},
 IBAN: "{self.IBAN}",
 BIC: "{self.BIC}",
+balance: {self.balance},
 transactions: 
     [
 '''
@@ -84,6 +89,7 @@ for i in range(amount):
     firstName = random.choice(firstNames)
     lastName = random.choice(lastNames)
     accId = startingAccId+i
+    balance = round(random.uniform(100, 3000), 2)
 
     #create transactions
     transactions = []
@@ -94,13 +100,12 @@ for i in range(amount):
         transDesc = random.choice(transDescs)
         transAmt = round(random.uniform(-100, 0), 2)
         transactions.append(Transaction(transDate.isoformat(), transDesc, transAmt))
-    accounts.append(Account(firstName, lastName, accId, 123456, 'IE64BAPP00000000'+str(accId), 'DABNKAPP', transactions))
+    accounts.append(Account(firstName, lastName, accId, 123456, 'IE64BAPP00000000'+str(accId), 'DABNKAPP', balance, transactions))
 
 #finally, write to file.
 output = open("generate-dummy-data/output.js", "w")
 
-outputStr = '''//load("generate-dummy-data\output.js")
-db.accounts.deleteMany({})
+outputStr = '''db.accounts.deleteMany({})
 db.accounts.insertMany(['''
 n = 0
 for account in accounts:

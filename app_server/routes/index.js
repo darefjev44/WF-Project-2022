@@ -6,6 +6,6 @@ const ctrlMain = require('../controllers/main');
 /* Pages */
 router.get('/', ctrlMain.home);
 router.get('/login', ctrlMain.login);
-router.get('/register', ctrlMain.register);
+router.get('/admin', ctrlMain.admin);
 
 module.exports = router;

@@ -1,0 +1,26 @@
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0, shrink-to-fit=no')
+    title= title
+    link(rel='stylesheet', href='/stylesheets/styles.css')
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css')
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3' crossorigin='anonymous')
+    script(src="https://use.fontawesome.com/4c115c132a.js")
+    script(src="/jquery/jquery.js")
+    block headextras
+  body.bg-light
+    nav.navbar.navbar-dark.navbar-expand-md.bg-dark.fixed-top
+      .container
+        a.navbar-brand.d-flex.align-items-center(href='/')
+          span.bs-icon.me-2
+            img(src="/images/banklogo.svg", height="32px", width="32px")
+          span #{name}
+        ul.navbar-nav.ms-auto
+          block navigation
+        a.btn.btn-primary.ms-md-2.collapse.collapsenav.show(role='button' href='/login') Sign Out
+    main.container.d-flex.justify-content-center
+        block content
+    footer.text-center.bg-dark.fixed-bottom
+      .container.text-white
+        span.text-muted &copy; 2022 #{name}

@@ -10,6 +10,9 @@ require('./app_server/models/db');
 
 var app = express();
 
+// add jquery
+app.use('/jquery', express.static('./node_modules/jquery/dist/'));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'app_server', 'views'));
 app.set('view engine', 'pug');
