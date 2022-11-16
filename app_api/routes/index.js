@@ -4,7 +4,7 @@ const ctrlMain = require('../controllers/main');
 
 //home
 router
-  .route('/')
+  .route('/home/:accountid')
   .get(ctrlMain.home)
 
 //login

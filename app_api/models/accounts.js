@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const transactionSchema = new mongoose.Schema({
     date: {
-        type: Date,
+        type: String,
         required: true
     },
     desc: {
         type: String,
         required: true
     },
-    amount: { 
+    value: { 
         type: Number,
         required: true
     }});
