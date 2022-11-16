@@ -48,4 +48,4 @@ const accountSchema = new mongoose.Schema({
     transactions: [transactionSchema] 
     });
 
-mongoose.model('Account', accountSchema)
+mongoose.model('Account', accountSchema);
