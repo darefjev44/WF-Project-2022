@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const dbURI = 
-"mongodb+srv://bankDBUser:bankDBPassword@cluster0.x5v4coo.mongodb.net/bankAppDB?retryWrites=true&w=majority";
+"mongodb+srv://darefjev44:asd123123@cluster0.x5v4coo.mongodb.net/bankAppDB";
 
 try { 
   mongoose.connect(
