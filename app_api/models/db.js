@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const dbURI = 
-"mongodb+srv://darefjev44:asd123123@cluster0.x5v4coo.mongodb.net/bankAppDB";
+
+require('dotenv').config();
+const dbURI = process.env.DBConnect;
 
 try { 
   mongoose.connect(
