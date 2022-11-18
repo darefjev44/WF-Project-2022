@@ -25,9 +25,9 @@ module.exports.login = function(req, res) {
     }
 
     if(account){
-      //token = account.generateJwt();
+      token = account.generateJwt();
       sendJSONresponse(res, 200, {
-        "token" : 'WOOOOOOO'
+        "token" : token
       });
     } else {
       sendJSONresponse(res, 401, info);
