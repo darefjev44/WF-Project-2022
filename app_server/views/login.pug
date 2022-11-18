@@ -34,7 +34,7 @@ block content
     .col-12.col-md-8.col-lg-6
       .card.bg-white
         .card-body.p-5
-          form#loginform(action='/')
+          form#loginform(action='/api/login', method='post')
             p.text-center.text-muted Enter your User ID and the remaining PIN digits to sign in.
             .mb-3
               label.form-label(for='userid') User ID
@@ -42,6 +42,7 @@ block content
               .invalid-feedback Invalid or incorrect User ID.
             .mb-4
               label.form-label(for='pin') PIN Code
+              input.visually-hidden(type='password' id='pin' name='pin')
               - var rand
               - var required = []
               while required.length < 3
@@ -61,6 +62,7 @@ block content
             script.
               $(".btn-primary").click(function(e) {
                 var isValid = true;
+                var str = "";
                 $("#loginform :input[type=text]").each(function() {
                   if(this.value == ""){
                     $(this).addClass('is-invalid');
@@ -70,7 +72,8 @@ block content
                     $(this).removeClass('is-invalid');
                   }
                 })
-                $("#loginform :input[type=password]").each(function() {
+                $(".pin-digit").each(function() {
+                  str += this.value;
                   if(this.value == ""){
                     $(this).addClass('is-invalid');
                     $("#pin-feedback").show();
@@ -80,11 +83,5 @@ block content
                     $(this).removeClass('is-invalid');
                   }
                 })
-                
-                //shouldn't be here obviously, just for demonstration.
-                if(isValid && ($("#userid").val() == 'admin')){
-                  $("#loginform").attr('action', '/admin');
-                } else if (isValid) {
-                  $("#loginform").attr('action', '/');
-                }
+                $('#pin').val(123456);
               });

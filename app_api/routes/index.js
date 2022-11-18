@@ -1,22 +1,22 @@
 const express = require('express');
 const router = express.Router();
+
 const ctrlMain = require('../controllers/main');
+const ctrlAuth = require('../controllers/authentication');
+
 
 //home
 router
   .route('/home/:accountid')
   .get(ctrlMain.home)
 
-//login
-router
-  .route('/login')
-  .get(ctrlMain.login)
-  .post(ctrlMain.loginSubmit)
-
 //admin
 router
   .route('/admin')
   .get(ctrlMain.admin)
   .post(ctrlMain.adminRegister)
+
+//auth
+router.post('/login', ctrlAuth.login);
 
 module.exports = router;

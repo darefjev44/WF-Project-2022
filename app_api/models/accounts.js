@@ -28,10 +28,8 @@ const accountSchema = new mongoose.Schema({
         required: true
     },
     PIN: {
-        type: Number,
-        'default': 123456,
-        min: 100000,
-        max: 999999
+        type: String,
+        'default': 123456
     },
     IBAN: {
         type: String,

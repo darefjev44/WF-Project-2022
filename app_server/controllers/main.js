@@ -1,4 +1,5 @@
 const request = require('request');
+const axios = require('axios');
 const apiOptions = {
     server: 'http://localhost:3000'
 };
@@ -7,7 +8,6 @@ if(process.env.NODE_ENV === 'production'){
 }
 
 const transactions = require('../../public/javascripts/transactions.js');
-
 
 /* Home */
 const _renderHomepage = function(req, res, responseBody){
@@ -20,7 +20,8 @@ const _renderHomepage = function(req, res, responseBody){
 };
 
 const home = function(req, res){ 
-    const path = '/api/home/6356ba3de572620756423e15';
+    //const path = '/api/home/6356ba3de572620756423e15';
+    const path = '/api/home/600001';
     const requestOptions = {
         url : apiOptions.server + path,
         method : 'GET',
@@ -31,6 +32,7 @@ const home = function(req, res){
         _renderHomepage(req, res, body);
     })
 };
+
 
 /* GET 'login' page */
 const login = function(req, res){

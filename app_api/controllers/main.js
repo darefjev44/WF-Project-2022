@@ -3,8 +3,9 @@ const Account = mongoose.model('Account');
 
 const home = function (req, res) {
   if(req.params && req.params.accountid){
+    console.log(req.params.accountid)
     Account
-      .findById(req.params.accountid)
+      .find({'accountID':req.params.accountid})
       .exec((err, account) => {
         if(!account){
           res
@@ -32,17 +33,6 @@ const home = function (req, res) {
   }
 };
 
-const login = function (req, res) {
-  res
-    .status(200)
-    .json({"status" : "success"});};
-
-const loginSubmit = function (req, res) {
-  res
-    .status(200)
-    .json({"status" : "success"});};
-
-
 const admin = function (req, res) {
   res
     .status(200)
@@ -52,11 +42,9 @@ const adminRegister = function (req, res) {
   res
     .status(200)
     .json({"status" : "success"});};
-
+    
 module.exports = {
   home,
-  login,
-  loginSubmit,
   admin,
   adminRegister
 };
