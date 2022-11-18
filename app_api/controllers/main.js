@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 const Account = mongoose.model('Account');
 
 const home = function (req, res) {
-  if(req.params && req.params.accountid){
-    console.log(req.params.accountid)
+  if(req.params && req.params.userid){
     Account
-      .find({'accountID':req.params.accountid})
+      .find({'userid':req.params.userid})
       .exec((err, account) => {
         if(!account){
           res

@@ -9,14 +9,14 @@ passport.use(new LocalStrategy({
   },
   function(username, password, done) {
     console.log("HELLO?!")
-    Account.findOne({ accountID: username }, function (err, account) {
+    Account.findOne({ userid: username }, function (err, account) {
       if (err) { return done(err); }
       if (!account) {
         return done(null, false, {
           message: 'Invalid User ID.'
         });
       }
-      if (account.PIN != password) {
+      if (account.pin != password) {
         return done(null, false, {
           message: 'Invalid User ID or PIN.'
         });

@@ -23,11 +23,11 @@ const accountSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    accountID: {
+    userid: {
         type: Number,
         required: true
     },
-    PIN: {
+    pin: {
         type: String,
         'default': 123456
     },
