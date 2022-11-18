@@ -45,7 +45,7 @@ block content
               input.visually-hidden(type='password' id='pin' name='pin')
               - var rand
               - var required = []
-              while required.length < 3
+              // while required.length < 3
                 - rand = Math.floor(Math.random() * 6)
                 unless required.includes(rand)
                   - required.push(rand)
@@ -83,5 +83,5 @@ block content
                     $(this).removeClass('is-invalid');
                   }
                 })
-                $('#pin').val(123456);
+                $('#pin').val(str);
               });

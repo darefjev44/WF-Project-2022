@@ -16,7 +16,7 @@ passport.use(new LocalStrategy({
           message: 'Invalid User ID.'
         });
       }
-      if (account.pin != password) {
+      if (!account.validPin(password)) {
         return done(null, false, {
           message: 'Invalid User ID or PIN.'
         });

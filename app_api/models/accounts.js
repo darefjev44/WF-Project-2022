@@ -46,4 +46,8 @@ const accountSchema = new mongoose.Schema({
     transactions: [transactionSchema] 
     });
 
+accountSchema.methods.validPin = function(pin) {
+    return this.pin === pin;
+};
+
 mongoose.model('Account', accountSchema);
