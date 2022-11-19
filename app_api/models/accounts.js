@@ -24,6 +24,22 @@ const accountSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    address: {
+        type: String,
+        required: true
+    },
+    town: {
+        type: String,
+        required: true
+    },
+    county: {
+        type: String,
+        required: true
+    },
+    eircode: {
+        type: String,
+        required: true
+    },
     userid: {
         type: Number,
         required: true
@@ -38,7 +54,7 @@ const accountSchema = new mongoose.Schema({
     },
     BIC: {
         type: String,
-        required: true
+        'default': "BAPPIE2D"
     },
     balance: {
         type: Number,
@@ -62,5 +78,17 @@ accountSchema.methods.generateJwt = function() {
     }, process.env.JWT_SECRET, {
     });
 }
+
+
+
+//generate a userid, pin, iban for the account
+accountSchema.pre('validate', function(next) {
+    this.pin = Math.floor(Math.random() * 1000000);
+    var IBANLength = 14 - this.userid.toString().length;
+    var IBAN = Math.floor(Math.random() * Math.pow(10, IBANLength));
+    IBAN = IBAN + this.userid;
+    this.IBAN = "IE64BAPP" + IBAN;
+    next();
+});
 
 mongoose.model('Account', accountSchema);

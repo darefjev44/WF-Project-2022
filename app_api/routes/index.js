@@ -14,9 +14,9 @@ router
 router
   .route('/admin')
   .get(ctrlMain.admin)
-  .post(ctrlMain.adminRegister)
 
 //auth
 router.post('/login', ctrlAuth.login);
+router.post('/register', ctrlAuth.register);
 
 module.exports = router;
