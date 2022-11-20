@@ -69,12 +69,9 @@ accountSchema.methods.validPin = function(pin) {
 
 accountSchema.methods.generateJwt = function() {
     return jwt.sign({
-        _id: this._id,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        IBAN: this.IBAN,
-        BIC: this.BIC,
-        balance: this.balance
+        account: {
+            _id: this._id
+        }
     }, process.env.JWT_SECRET, {
     });
 }

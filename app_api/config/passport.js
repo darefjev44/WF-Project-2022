@@ -8,7 +8,6 @@ passport.use(new LocalStrategy({
     passwordField: 'pin'
   },
   function(username, password, done) {
-    console.log("HELLO?!")
     Account.findOne({ userid: username }, function (err, account) {
       if (err) { return done(err); }
       if (!account) {

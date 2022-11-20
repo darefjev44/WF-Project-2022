@@ -19,12 +19,13 @@ class Account:
 firstName: "{self.firstName}",
 lastName: "{self.lastName}",
 address: "123 Street",
-town: "Tralee",
+town: "Town City",
 county: "Co. County",
+eircode: "A12 B34",
 userid: {self.accountID},
-pin: {self.PIN},
+pin: "{self.PIN}",
 IBAN: "{self.IBAN}",
-BIC: "{self.BIC}",
+BIC: "BAPPIE2D",
 balance: {self.balance},
 transactions: 
     [
@@ -54,7 +55,7 @@ class Transaction:
         str = f'''
         date: "{self.date}",
         desc: "{self.desc}",
-        amount: {self.amount}'''
+        value: {self.amount}'''
         return str
 
 amount = input("Amount of dummy accounts to generate (or enter for defaults [5, 10-20, 0-3]): ")

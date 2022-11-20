@@ -50,7 +50,6 @@ module.exports.register = function(req, res) {
 };
 
 module.exports.login = function(req, res) {
-  console.log(req.body)
   if(!req.body.userid || !req.body.pin) {
     sendJSONresponse(res, 400, {
       "message": "All fields required"
@@ -76,4 +75,19 @@ module.exports.login = function(req, res) {
     }
   })(req, res);
 
+};
+
+var jwt = require('jsonwebtoken');
+
+module.exports.account = function(req, res) {
+  var decoded = jwt.verify(req.params.token, process.env.JWT_SECRET);
+
+  //find account by _id
+  Account.findById(decoded.account._id, function(err, account) {
+    if(err) {
+      sendJSONresponse(res, 404, err);
+    } else {
+      sendJSONresponse(res, 200, account);
+    }
+  });
 };
