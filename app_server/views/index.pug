@@ -1,14 +1,5 @@
 extends main-layout.pug
 
-mixin tableAmountTd(value)
-  - value = value.toFixed(2);
-  if value < 0
-    td.text-danger.tableAmnt €#{value}
-  else if transValue === 0
-    td.text-muted.tableAmnt €#{value}
-  else
-    td.text-success.tableAmnt €+#{value}
-
 block headextras
   script.
     var detailsStr
@@ -39,68 +30,8 @@ block content
         strong Welcome, #{account.firstName} #{account.lastName}.
       p.text-muted Your balance is €#{account.balance}.
     .col.mb-5
-      table.table.table-bordered
-        thead
-          tr
-            th.text-center(scope='col', colspan='3') Recent Activity 
-        tbody
-          - var todayCount = 0;
-          - //handling today's transactions
-          if transactionsJS.today() === account.transactions[0].date
-            - //first count the amount of transactions today
-            each transaction in account.transactions
-              if transactionsJS.today() === transaction.date
-                - ++todayCount;
-              else
-                - break; //transactions *should* be in order, so we can break as soon as we find one that isn't today's.
-            - //now lets display them
-            - var firstDone = false; //th only needed once
-            - var transValue;
-            - var n = 0;
-            while n < todayCount
-              - ++n;
-              tr
-                if !firstDone
-                  th(rowspan=todayCount) Today
-                  - firstDone = true
-                td #{account.transactions[n].desc}
-                +tableAmountTd(account.transactions[n].value)
-          - //handling the rest
-          - //if a transaction happened more than once on a date, merge and display count instead.
-          - var remainingTrans = []
-          each transaction in account.transactions
-            - //skip today's transactions as they've already been handled.
-            if !(transaction.date === transactionsJS.today())
-              - //check if remainingTrans contains a transaction with this date already, get the index
-              -
-                var existingIndex = remainingTrans.findIndex(element => {
-                  var eDate = new Date(element.date);
-                  if(eDate.toISOString().slice(0, 10) === transaction.date){
-                    return true;
-                  } else {
-                    return false;                    
-                  }
-                });
-              - //if it does, merge the values of the transactions, set name to contain amount of transactions
-              if existingIndex >= 0
-                -
-                  remainingTrans[existingIndex].value += transaction.value;
-                  remainingTrans[existingIndex].count += 1;
-                  remainingTrans[existingIndex].desc = remainingTrans[existingIndex].count + " transactions..."; 
-              else
-                -
-                  remainingTrans.push({
-                    date: transaction.date,
-                    desc: transaction.desc,
-                    value: transaction.value,
-                    count: 1 });
-          - //finally, display the remaining transactions.
-          each transaction in remainingTrans
-            tr
-              if transaction.date == transactionsJS.yesterday()
-                th Yesterday
-              else
-                - var transDateStr = transactionsJS.dateDayOrdinal(transaction.date) + " " + transactionsJS.dateMonthLong(transaction.date).slice(0, 3);
-                th #{transDateStr}
-              td #{transaction.desc}
-              +tableAmountTd(transaction.value)
+      app-transactions-list Loading transactions...
+block scripts
+  script(src='/build/polyfills.f147dc72ba86364d.js')
+  script(src='/build/main.db37efa8f75ea2cf.js')
+  script(src='/build/runtime.8a5fc425f5b97b1e.js')

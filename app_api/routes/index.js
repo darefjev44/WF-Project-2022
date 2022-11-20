@@ -15,5 +15,6 @@ router.post('/register', ctrlAuth.register);
 
 //get account details in token
 router.get('/account/:token', ctrlAuth.account);
+router.get('/transactions/:token', ctrlAuth.transactions);
 
 module.exports = router;
