@@ -34,7 +34,7 @@ block content
     .col-12.col-md-8.col-lg-6
       .card.bg-white
         .card-body.p-5
-          form#loginform(action='/api/login', method='post')
+          form#loginform(action='/login', method='post')
             p.text-center.text-muted Enter your User ID and the remaining PIN digits to sign in.
             .mb-3
               label.form-label(for='userid') User ID
@@ -45,7 +45,7 @@ block content
               input.visually-hidden(type='password' id='pin' name='pin')
               - var rand
               - var required = []
-              while required.length < 3
+              // while required.length < 3
                 - rand = Math.floor(Math.random() * 6)
                 unless required.includes(rand)
                   - required.push(rand)
@@ -83,5 +83,5 @@ block content
                     $(this).removeClass('is-invalid');
                   }
                 })
-                $('#pin').val(123456);
+                $('#pin').val(str);
               });

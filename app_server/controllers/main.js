@@ -1,4 +1,3 @@
-const request = require('request');
 const axios = require('axios');
 const apiOptions = {
     server: 'http://localhost:3000'
@@ -7,32 +6,33 @@ if(process.env.NODE_ENV === 'production'){
     apiOptions.server = '';//TODO Server URL Here
 }
 
-const transactions = require('../../public/javascripts/transactions.js');
+const transactionsJS = require('../../public/javascripts/transactions.js');
 
 /* Home */
-const _renderHomepage = function(req, res, responseBody){
-    res.render('index', {
-        transactionsJS: transactions,
-        name: 'BankApp',
-        title: 'Home',
-        account: responseBody
-    });
+const _renderHomepage = function(req, res, data){
+    const path = apiOptions.server + '/api/account/' + data.token;
+
+    //Gets the account details from the token & renders the homepage
+    axios
+        .get(path)
+        .then(function(response){
+            res.render('index', {
+                title: 'Home',
+                account: response.data,
+                transactionsJS: transactionsJS
+            });
+        })
+        .catch(function(err){
+            res.render('error', {
+                title: 'Error',
+                error: err
+            });
+        });
 };
 
-const home = function(req, res){ 
-    //const path = '/api/home/6356ba3de572620756423e15';
-    const path = '/api/home/600001';
-    const requestOptions = {
-        url : apiOptions.server + path,
-        method : 'GET',
-        json : {}
-    };
-
-    request(requestOptions, (err, response, body) => {
-        _renderHomepage(req, res, body);
-    })
+const home = function(req, res){
+    _renderHomepage(req, res, req.body);
 };
-
 
 /* GET 'login' page */
 const login = function(req, res){
@@ -40,6 +40,28 @@ const login = function(req, res){
         name: 'BankApp',
         title: 'Sign In'});
 };
+
+const loginSubmit = function(req, res){
+    const path = apiOptions.server + '/api/login';
+    const postData = {
+        userid: req.body.userid,
+        pin: req.body.pin
+    };
+
+    //Submits the login form and attempts to redirect to the homepage with the token
+    axios
+        .post(path, postData)
+        .then(function(response){
+            _renderHomepage(req, res, response.data);
+        })
+        .catch(function(err){
+            res.render('error', {
+                title: 'Error',
+                error: err
+            });
+        });
+};
+
 
 /* GET 'admin' page */
 const admin = function(req, res){
@@ -50,6 +72,7 @@ const admin = function(req, res){
 
 module.exports = { 
     login,
+    loginSubmit,
     admin,
-    home 
+    home
 };

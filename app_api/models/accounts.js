@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var jwt = require('jsonwebtoken');
 
 const transactionSchema = new mongoose.Schema({
     date: {
@@ -23,11 +24,27 @@ const accountSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    accountID: {
+    address: {
+        type: String,
+        required: true
+    },
+    town: {
+        type: String,
+        required: true
+    },
+    county: {
+        type: String,
+        required: true
+    },
+    eircode: {
+        type: String,
+        required: true
+    },
+    userid: {
         type: Number,
         required: true
     },
-    PIN: {
+    pin: {
         type: String,
         'default': 123456
     },
@@ -37,7 +54,7 @@ const accountSchema = new mongoose.Schema({
     },
     BIC: {
         type: String,
-        required: true
+        'default': "BAPPIE2D"
     },
     balance: {
         type: Number,
@@ -45,5 +62,30 @@ const accountSchema = new mongoose.Schema({
     },
     transactions: [transactionSchema] 
     });
+
+accountSchema.methods.validPin = function(pin) {
+    return this.pin === pin;
+};
+
+accountSchema.methods.generateJwt = function() {
+    return jwt.sign({
+        account: {
+            _id: this._id
+        }
+    }, process.env.JWT_SECRET, {
+    });
+}
+
+
+
+//generate a userid, pin, iban for the account
+accountSchema.pre('validate', function(next) {
+    this.pin = Math.floor(Math.random() * 1000000);
+    var IBANLength = 14 - this.userid.toString().length;
+    var IBAN = Math.floor(Math.random() * Math.pow(10, IBANLength));
+    IBAN = IBAN + this.userid;
+    this.IBAN = "IE64BAPP" + IBAN;
+    next();
+});
 
 mongoose.model('Account', accountSchema);

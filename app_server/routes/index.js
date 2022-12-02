@@ -7,7 +7,10 @@ const ctrlMain = require('../controllers/main');
 router.get('/', ctrlMain.home);
 
 /* Login */
-router.get('/login', ctrlMain.login);
+router
+  .route('/login')
+  .get(ctrlMain.login)
+  .post(ctrlMain.loginSubmit);
 
 /* Admin */
 router.get('/admin', ctrlMain.admin);
