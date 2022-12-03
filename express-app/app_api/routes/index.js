@@ -3,6 +3,7 @@ const router = express.Router();
 
 const ctrlMain = require('../controllers/main');
 const ctrlAuth = require('../controllers/authentication');
+const ctrlAccounts = require('../controllers/accounts');
 
 //admin
 router
@@ -14,7 +15,7 @@ router.post('/login', ctrlAuth.login);
 router.post('/register', ctrlAuth.register);
 
 //get account details in token
-router.get('/account/:token', ctrlAuth.account);
-router.get('/transactions/:token', ctrlAuth.transactions);
+router.get('/account/:token', ctrlAccounts.account);
+router.get('/transactions/:token', ctrlAccounts.transactions);
 
 module.exports = router;
