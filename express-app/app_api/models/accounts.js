@@ -18,27 +18,51 @@ const transactionSchema = new mongoose.Schema({
 const accountSchema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true
+        validate: {
+            validator: function(v) {
+                return /^[a-zA-Z]+$/.test(v);
+            },
+            message: 'Invalid first name.'
+        },
+        maxLength: [20, 'First name is too long.'],
+        required: [true, 'First name is required.']
     },
     lastName: {
         type: String,
-        required: true
+        validate: {
+            validator: function(v) {
+                return /^[a-zA-Z]+$/.test(v);
+            },
+            message: 'Invalid last name.'
+        },
+        maxLength: [20, 'Last name is too long.'],
+        required: [true, 'Last name is required.']
     },
     address: {
         type: String,
-        required: true
+        minLength: [5, 'Address is too short.'],
+        maxLength: [50, 'Address is too long.'],
+        required: [true, 'Address is required.']
     },
     town: {
         type: String,
-        required: true
+        maxLength: [30, 'Town/City is too long.'],
+        required: [true, 'Town is required.']
     },
     county: {
         type: String,
-        required: true
+        maxLength: [20, 'County is too long.'],
+        required: [true, 'County is required.']
     },
     eircode: {
         type: String,
-        required: true
+        validate: {
+            validator: function(v) {
+                return /^([A-Za-z0-9]{3}\s{0,1}[A-Za-z0-9]{4})$/.test(v);
+            },
+            message: props => 'Invalid eircode format.'
+        },
+        required: [true, 'Eircode is required.']
     },
     userid: {
         type: Number,
@@ -49,8 +73,7 @@ const accountSchema = new mongoose.Schema({
         'default': 123456
     },
     IBAN: {
-        type: String,
-        required: true
+        type: String
     },
     BIC: {
         type: String,

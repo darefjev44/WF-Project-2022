@@ -16,13 +16,6 @@ async function getNextUserid(){
   
 
 module.exports.register = function(req, res) {
-  if(!req.body.firstName || !req.body.lastName || !req.body.address || !req.body.town || !req.body.county || !req.body.eircode) {
-    sendJSONresponse(res, 400, {
-      "message": "All fields are required."
-    });
-    return;
-  }
-
   var account = new Account();
 
   //query to get next available user id then do rest when getNextUserid returns
@@ -35,9 +28,13 @@ module.exports.register = function(req, res) {
     account.county = req.body.county;
     account.eircode = req.body.eircode;
 
-    account.save(function(err) {
+    //validate account
+    var mongooseResponse = account.validateSync();
+    if(mongooseResponse){
+      sendJSONresponse(res, 400, mongooseResponse.errors);
+    } else {
+      account.save(function(err) {
       if(err) {
-        console.log(err)
         sendJSONresponse(res, 404, err);
       } else {
         sendJSONresponse(res, 200, {
@@ -46,6 +43,7 @@ module.exports.register = function(req, res) {
         });
       }
     });
+    }
   });
 };
 

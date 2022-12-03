@@ -8,50 +8,48 @@ block content
           form#registerform(action='/register', method='post')
             .mb-3
               label.form-label(for='firstName') First Name
-              input.form-control(type='text' name='firstName', maxlength='20')
-              .invalid-feedback First name is required.
+              input.form-control(type='text' name='firstName', id='firstName', maxLength='20')
+              if errors && errors.firstName
+                .invalid-feedback #{errors.firstName.message}
+                script.
+                  $('#firstName').addClass('is-invalid')
             .mb-3
               label.form-label(for='lastName') Last Name
-              input.form-control(type='text' name='lastName', maxlength='20')
-              .invalid-feedback Last name is required.
+              input.form-control(type='text' name='lastName', id='lastName', maxLength='20')
+              if errors && errors.lastName
+                .invalid-feedback #{errors.lastName.message}
+                script.
+                  $('#lastName').addClass('is-invalid')
             .mb-3
               label.form-label(for='address') Address
-              input.form-control(type='text' name='address', maxlength='50')
-              .invalid-feedback Address is required.
+              input.form-control(type='text' name='address', id='address', maxLength='50')
+              if errors && errors.address
+                .invalid-feedback #{errors.address.message}
+                script.
+                  $('#address').addClass('is-invalid')
             .mb-3
               label.form-label(for='town') Town
-              input.form-control(type='text' name='town', maxlength='20')
-              .invalid-feedback Town is required.
+              input.form-control(type='text' name='town', id='town', maxLength='30')
+              if errors && errors.town
+                .invalid-feedback #{errors.town.message}
+                script.
+                  $('#town').addClass('is-invalid')
             .mb-3
               label.form-label(for='county') County
-              input.form-control(type='text' name='county', maxlength='20')
-              .invalid-feedback County is required.
+              input.form-control(type='text' name='county', id='county', maxLength='20')
+              if errors && errors.county
+                .invalid-feedback #{errors.county.message}
+                script.
+                  $('#county').addClass('is-invalid')
             .mb-3
               label.form-label(for='eircode') Eircode
-              input.form-control(type='text' name='eircode' id='eircode', maxlength='8')
-              .invalid-feedback Invalid or incorrect Eircode format.
-            button.btn.btn-primary.shadow.d-block.w-100(type='submit') Register
-            script.
-              $(".btn-primary").click(function(e) {
-                var isValid = true;
-                $("form :input[type=text]").each(function() {
-                  if(this.value == ""){
-                    $(this).addClass('is-invalid');
-                    isValid = false;
-                    e.preventDefault();
-                  } else {
-                    $(this).removeClass('is-invalid');
-                  }
-                })
-                var expression = /^([A-Za-z0-9]{3}\s{0,1}[A-Za-z0-9]{4})$/
-                if(!expression.test($("#eircode").val())){
-                  $("#eircode").addClass('is-invalid');
-                  isValid = false;
-                  e.preventDefault();
-                } else {
-                  $("#eircode").removeClass('is-invalid');
-                }
-              })
+              input.form-control(type='text' name='eircode' id='eircode', maxLength='8')
+              if errors && errors.eircode
+                .invalid-feedback #{errors.eircode.message}
+                script.
+                  $('#eircode').addClass('is-invalid')
+            .mb-3
+              button.btn.btn-primary.shadow.d-block.w-100(type='submit') Register
   if message
     .modal#registerModal
       .modal-dialog.modal-dialog-centered
@@ -67,4 +65,14 @@ block content
     script.
       $(document).ready(function(){
         $("#registerModal").modal('show');
+      })
+  if form
+    script.
+      $(document).ready(function(){
+        $('#firstName').val('#{form.firstName}');
+        $('#lastName').val('#{form.lastName}');
+        $('#address').val('#{form.address}');
+        $('#town').val('#{form.town}');
+        $('#county').val('#{form.county}');
+        $('#eircode').val('#{form.eircode}');
       })
