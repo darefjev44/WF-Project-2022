@@ -13,8 +13,11 @@ router
   .get(ctrlMain.login)
   .post(ctrlMain.loginSubmit);
 
-/* Admin */
-router.get('/admin', ctrlMain.admin);
+/* Register */
+router
+  .route('/register')
+  .get(ctrlMain.register)
+  .post(ctrlMain.registerSubmit);
 
 /* Logout */
 router.get('/logout', ctrlMain.logout);

@@ -36,14 +36,13 @@ module.exports.register = function(req, res) {
     account.eircode = req.body.eircode;
 
     account.save(function(err) {
-      var token;
       if(err) {
         console.log(err)
         sendJSONresponse(res, 404, err);
       } else {
-        token = account.generateJwt();
         sendJSONresponse(res, 200, {
-          "token" : token
+          "userid" : account.userid,
+          "pin" : account.pin
         });
       }
     });
@@ -59,15 +58,13 @@ module.exports.login = function(req, res) {
   }
 
   passport.authenticate('local', function(err, account, info){
-    var token;
-
     if (err) {
       sendJSONresponse(res, 404, err);
       return;
     }
 
     if(account){
-      token = account.generateJwt();
+      var token = account.generateJwt();
       sendJSONresponse(res, 200, {
         "token" : token
       });

@@ -1,0 +1,70 @@
+extends landing-layout
+
+block content
+  .row.d-flex.justify-content-center
+    .col-12.col-md-8.col-lg-6
+      .card.bg-white
+        .card-body.p-5
+          form#registerform(action='/register', method='post')
+            .mb-3
+              label.form-label(for='firstName') First Name
+              input.form-control(type='text' name='firstName', maxlength='20')
+              .invalid-feedback First name is required.
+            .mb-3
+              label.form-label(for='lastName') Last Name
+              input.form-control(type='text' name='lastName', maxlength='20')
+              .invalid-feedback Last name is required.
+            .mb-3
+              label.form-label(for='address') Address
+              input.form-control(type='text' name='address', maxlength='50')
+              .invalid-feedback Address is required.
+            .mb-3
+              label.form-label(for='town') Town
+              input.form-control(type='text' name='town', maxlength='20')
+              .invalid-feedback Town is required.
+            .mb-3
+              label.form-label(for='county') County
+              input.form-control(type='text' name='county', maxlength='20')
+              .invalid-feedback County is required.
+            .mb-3
+              label.form-label(for='eircode') Eircode
+              input.form-control(type='text' name='eircode' id='eircode', maxlength='8')
+              .invalid-feedback Invalid or incorrect Eircode format.
+            button.btn.btn-primary.shadow.d-block.w-100(type='submit') Register
+            script.
+              $(".btn-primary").click(function(e) {
+                var isValid = true;
+                $("form :input[type=text]").each(function() {
+                  if(this.value == ""){
+                    $(this).addClass('is-invalid');
+                    isValid = false;
+                    e.preventDefault();
+                  } else {
+                    $(this).removeClass('is-invalid');
+                  }
+                })
+                var expression = /^([A-Za-z0-9]{3}\s{0,1}[A-Za-z0-9]{4})$/
+                if(!expression.test($("#eircode").val())){
+                  $("#eircode").addClass('is-invalid');
+                  isValid = false;
+                  e.preventDefault();
+                } else {
+                  $("#eircode").removeClass('is-invalid');
+                }
+              })
+  if message
+    .modal#registerModal
+      .modal-dialog.modal-dialog-centered
+        .modal-content
+          .modal-header
+            h5.modal-title #{messageTitle}
+            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          .modal-body
+            p !{message}
+          .modal-footer
+            a.btn.btn-primary(type='button' href='/login') Sign In
+            button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Close
+    script.
+      $(document).ready(function(){
+        $("#registerModal").modal('show');
+      })

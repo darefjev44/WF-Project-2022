@@ -66,23 +66,48 @@ const loginSubmit = function(req, res){
         });
 };
 
+/* Register GET */
+const register = function(req, res){
+    res.render('register', {
+        name: 'BankApp',
+        title: 'Register'});
+};
+
+/* Register POST */
+const registerSubmit = function(req, res){
+    const path = apiOptions.server + '/api/register';
+    
+    axios
+        .post(path, req.body)
+        .then(function(response){
+            res.render('register', {
+                name: 'BankApp',
+                title: 'Register',
+                messageTitle: 'Registration Successful!',
+                message: 'You can now sign in with your new account.<br>Your User ID is: ' + response.data.userid + '<br>Your PIN is: ' + response.data.pin + '<br><span class="text-muted">Please keep this information safe.</span>'
+            });
+        })
+        .catch(function(err){
+            res.render('register', {
+                name: 'BankApp',
+                title: 'Register',
+                messageTitle: 'Registration Failed!',
+                message: 'Something went wrong. Please check your details and try again.<br><span class="text-muted>Error: ' + err + '</span>'
+            });
+        });
+};
+
 /* Logout */
 const logout = function(req, res){
     res.clearCookie('token');
     res.redirect('/login');
 };
 
-/* GET 'admin' page */
-const admin = function(req, res){
-    res.render('admin', {
-        name: 'BankApp', 
-        title: 'admin'});
-};
-
 module.exports = { 
     login,
     loginSubmit,
     logout,
-    admin,
+    register,
+    registerSubmit,
     home
 };
