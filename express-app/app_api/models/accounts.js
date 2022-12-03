@@ -73,6 +73,7 @@ accountSchema.methods.generateJwt = function() {
             _id: this._id
         }
     }, process.env.JWT_SECRET, {
+        expiresIn: '10m'
     });
 }
 

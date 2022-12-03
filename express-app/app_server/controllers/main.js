@@ -6,20 +6,19 @@ if(process.env.NODE_ENV === 'production'){
     apiOptions.server = '';//TODO Server URL Here
 }
 
-const transactionsJS = require('../../public/javascripts/transactions.js');
-
 /* Home */
-const _renderHomepage = function(req, res, data){
-    const path = apiOptions.server + '/api/account/' + data.token;
+const _renderHomepage = function(req, res){
+    var token = req.cookies.token;
+    const path = apiOptions.server + '/api/account/' + token;
 
     //Gets the account details from the token & renders the homepage
     axios
         .get(path)
         .then(function(response){
             res.render('index', {
+                name: 'BankApp',
                 title: 'Home',
-                account: response.data,
-                transactionsJS: transactionsJS
+                account: response.data
             });
         })
         .catch(function(err){
@@ -31,16 +30,21 @@ const _renderHomepage = function(req, res, data){
 };
 
 const home = function(req, res){
-    _renderHomepage(req, res, req.body);
+    if(req.cookies.token){
+        _renderHomepage(req, res);
+    } else{
+        res.redirect('/login');
+    }
 };
 
-/* GET 'login' page */
+/* Login GET */
 const login = function(req, res){
     res.render('login', {
         name: 'BankApp',
         title: 'Sign In'});
 };
 
+/* Login POST */
 const loginSubmit = function(req, res){
     const path = apiOptions.server + '/api/login';
     const postData = {
@@ -48,11 +52,11 @@ const loginSubmit = function(req, res){
         pin: req.body.pin
     };
 
-    //Submits the login form and attempts to redirect to the homepage with the token
     axios
         .post(path, postData)
         .then(function(response){
-            _renderHomepage(req, res, response.data);
+            res.cookie('token', response.data.token);
+            res.redirect('/');
         })
         .catch(function(err){
             res.render('error', {
@@ -62,6 +66,11 @@ const loginSubmit = function(req, res){
         });
 };
 
+/* Logout */
+const logout = function(req, res){
+    res.clearCookie('token');
+    res.redirect('/login');
+};
 
 /* GET 'admin' page */
 const admin = function(req, res){
@@ -73,6 +82,7 @@ const admin = function(req, res){
 module.exports = { 
     login,
     loginSubmit,
+    logout,
     admin,
     home
 };

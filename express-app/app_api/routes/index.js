@@ -11,10 +11,10 @@ router
   .get(ctrlMain.admin)
 
 //auth
-router.post('/login', ctrlAuth.login);
-router.post('/register', ctrlAuth.register);
+router.post('/login', ctrlAuth.login); //Returns token as JSON object.
+router.post('/register', ctrlAuth.register); //Creates a new account.
 
-//get account details in token
+//account details
 router.get('/account/:token', ctrlAccounts.account);
 router.get('/transactions/:token', ctrlAccounts.transactions);
 

@@ -1,6 +1,7 @@
 var passport = require('passport');
 var mongoose = require('mongoose');
 var Account = mongoose.model('Account');
+var jwt = require('jsonwebtoken');
 
 var sendJSONresponse = function(res, status, content) {
   res.status(status);
@@ -74,5 +75,4 @@ module.exports.login = function(req, res) {
       sendJSONresponse(res, 401, info);
     }
   })(req, res);
-
 };
