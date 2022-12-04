@@ -1,15 +1,5 @@
 extends main-layout.pug
 
-block headextras
-  script.
-    var detailsStr
-    //had to do it this way, prior to having jquery set up.
-    document.onreadystatechange = function () {
-      if (document.readyState === 'complete') {
-        var tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        var tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-      }
-    }
 block navigation 
   li.nav-item.d-inline.align-middle.me-2.accountinfo
     script.
@@ -35,3 +25,8 @@ block scripts
   script(src='/build/polyfills.js')
   script(src='/build/main.js')
   script(src='/build/runtime.js')
+  script.
+    $(document).ready(function () {
+        var tooltipTriggerList = $('[data-bs-toggle="tooltip"]')
+        var tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })
