@@ -1,7 +1,6 @@
 var passport = require('passport');
 var mongoose = require('mongoose');
 var Account = mongoose.model('Account');
-var jwt = require('jsonwebtoken');
 
 var sendJSONresponse = function(res, status, content) {
   res.status(status);
@@ -33,6 +32,10 @@ module.exports.register = function(req, res) {
     account.county = req.body.county;
     account.eircode = req.body.eircode;
 
+    var pin = Math.floor(Math.random() * 1000000);
+    pin = pin.toString().padStart(6, '0');
+    account.setPin(pin);
+
     //validate account
     var mongooseResponse = account.validateSync();
     if(mongooseResponse){
@@ -44,7 +47,7 @@ module.exports.register = function(req, res) {
       } else {
         sendJSONresponse(res, 200, {
           "userid" : account.userid,
-          "pin" : account.pin
+          "pin" : pin
         });
       }
     });

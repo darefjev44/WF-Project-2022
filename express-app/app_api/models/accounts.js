@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var fs = require('fs')
 
@@ -69,10 +70,6 @@ const accountSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    pin: {
-        type: String,
-        'default': 123456
-    },
     IBAN: {
         type: String
     },
@@ -84,11 +81,19 @@ const accountSchema = new mongoose.Schema({
         type: Number,
         'default': 0
     },
-    transactions: [transactionSchema] 
+    transactions: [transactionSchema],
+    hash: String,
+    salt: String
     });
 
+accountSchema.methods.setPin = function(pin) {
+    this.salt = crypto.randomBytes(16).toString('hex');
+    this.hash = crypto.pbkdf2Sync(pin, this.salt, 1000, 64, 'sha512').toString('hex');
+};
+
 accountSchema.methods.validPin = function(pin) {
-    return this.pin === pin;
+    var hash = crypto.pbkdf2Sync(pin, this.salt, 1000, 64, 'sha512').toString('hex');
+    return this.hash === hash;
 };
 
 accountSchema.methods.generateJwt = function() {
@@ -105,9 +110,6 @@ accountSchema.methods.generateJwt = function() {
 
 //generate a userid, pin, iban for the account
 accountSchema.pre('validate', function(next) {
-    this.pin = Math.floor(Math.random() * 1000000);
-    this.pin = this.pin.toString().padStart(6, '0');
-    
     var IBANLength = 14 - this.userid.toString().length;
     var IBAN = Math.floor(Math.random() * Math.pow(10, IBANLength));
     IBAN = IBAN + this.userid;
