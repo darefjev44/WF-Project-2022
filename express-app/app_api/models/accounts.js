@@ -106,6 +106,8 @@ accountSchema.methods.generateJwt = function() {
 //generate a userid, pin, iban for the account
 accountSchema.pre('validate', function(next) {
     this.pin = Math.floor(Math.random() * 1000000);
+    this.pin = this.pin.toString().padStart(6, '0');
+    
     var IBANLength = 14 - this.userid.toString().length;
     var IBAN = Math.floor(Math.random() * Math.pow(10, IBANLength));
     IBAN = IBAN + this.userid;

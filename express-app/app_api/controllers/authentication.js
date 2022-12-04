@@ -11,6 +11,11 @@ var sendJSONresponse = function(res, status, content) {
 //function to get next available user id
 async function getNextUserid(){
   var accounts = await Account.find().sort({userid:-1}).limit(1).exec();
+
+  if(accounts.length == 0){
+    return Math.floor(Math.random() * 10000) + 5000;
+  }
+
   return accounts[0].userid+1; 
 }
   
