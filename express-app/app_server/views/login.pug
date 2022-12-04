@@ -45,7 +45,7 @@ block content
       }
     });
     $(".btn-primary").click(function(e) {
-      $("#loginform:input:not(#pin)").each(function() {
+      $("input:not(#pin)").each(function() {
         if(this.value == ""){
           $(this).addClass('is-invalid');
 
