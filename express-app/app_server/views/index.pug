@@ -1,32 +1,21 @@
 extends main-layout.pug
 
-block navigation 
-  li.nav-item.d-inline.align-middle.me-2.accountinfo
-    script.
-      function copyDetails(iban, bic){
-        var detailsStr =
-          `My details are: 
-          IBAN: ${iban}
-          BIC: ${bic}`;
-        navigator.clipboard.writeText(detailsStr);
-      }
-    - var tooltipText = "<span class='ttInfo'>IBAN: " + account.IBAN + "</br> BIC: " + account.BIC + "</span><br>Click to copy!"
-    - var onclickevent = "copyDetails('" + account.IBAN + "','" + account.BIC + "');" //very dumb workaround, function isn't of scope of account/whatever other data from the controller. 
-    i.fa.fa-info-circle.nav-link#infoIcon(onclick=onclickevent data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title=tooltipText data-bs-html="true" data-bs-custom-class="ttClass")
+block navigation
+  li.nav-item
+    a.nav-link.nav-current(href='/') Home
+  li.nav-item
+    a.nav-link.disabled Transfer Funds
+  li.nav-item
+    a.nav-link.disabled Deposit Funds
 block content
-  .col-md-6
-    .text-center
-      h2
-        strong Welcome, #{account.firstName} #{account.lastName}.
-      p.text-muted Your balance is €#{account.balance}.
-    .col.mb-5
+  section.text-center
+    .container.ps-5.pe-5
+      p.text-muted Welcome, #{account.firstName} #{account.lastName}.
+      h3.text-muted Your balance is €#{account.balance}.
+  section.text-center
+    .container.ps-4.pe-4
       app-transactions-list Loading transactions...
 block scripts
   script(src='/build/polyfills.js')
   script(src='/build/main.js')
   script(src='/build/runtime.js')
-  script.
-    $(document).ready(function () {
-        var tooltipTriggerList = $('[data-bs-toggle="tooltip"]')
-        var tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    })
