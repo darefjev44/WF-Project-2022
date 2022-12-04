@@ -59,9 +59,11 @@ const loginSubmit = function(req, res){
             res.redirect('/');
         })
         .catch(function(err){
-            res.render('error', {
-                title: 'Error',
-                error: err
+            res.render('login', {
+                name: 'BankApp',
+                title: 'Sign In',
+                messageTitle: 'Login Failed!',
+                message: 'Invalid User ID or PIN. Please check your details and try again.'
             });
         });
 };

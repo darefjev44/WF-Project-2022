@@ -50,7 +50,7 @@ module.exports.register = function(req, res) {
 module.exports.login = function(req, res) {
   if(!req.body.userid || !req.body.pin) {
     sendJSONresponse(res, 400, {
-      "message": "All fields required"
+      "message": "All fields are required."
     });
     return;
   }
@@ -67,6 +67,7 @@ module.exports.login = function(req, res) {
         "token" : token
       });
     } else {
+      console.log(info)
       sendJSONresponse(res, 401, info);
     }
   })(req, res);

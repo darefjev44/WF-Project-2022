@@ -33,6 +33,21 @@ block content
           .invalid-feedback#pin-feedback Invalid PIN.
         .mb-3
           button.btn.btn-primary.w-50(type='submit') Sign In
+  if message
+    .modal#loginModal
+      .modal-dialog.modal-dialog-centered
+        .modal-content
+          .modal-header
+            h5.modal-title #{messageTitle}
+            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          .modal-body
+            p !{message}
+          .modal-footer
+            button.btn.btn-primary(type='button' data-bs-dismiss='modal') OK
+    script.
+      $(document).ready(function(){
+        $("#loginModal").modal('show');
+      })
   script.
     //go to next input when a digit is entered, remove non numeric characters
     $(".pin-digit").keyup(function () {
