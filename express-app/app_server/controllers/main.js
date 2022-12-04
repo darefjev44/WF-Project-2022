@@ -102,7 +102,7 @@ const registerSubmit = function(req, res){
                     name: 'BankApp',
                     title: 'Register',
                     messageTitle: 'Registration Failed!',
-                    message: 'Something went wrong. Please check your details and try again.<br><span class="text-muted>Error: ' + err + '</span>'
+                    message: 'Something went wrong. Please check your details and try again.<br><span class="text-muted">Error: ' + err + '</span>'
                 });
             }
         });

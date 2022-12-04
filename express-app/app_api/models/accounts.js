@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
+var fs = require('fs')
 
 const transactionSchema = new mongoose.Schema({
     date: {
@@ -109,6 +110,34 @@ accountSchema.pre('validate', function(next) {
     var IBAN = Math.floor(Math.random() * Math.pow(10, IBANLength));
     IBAN = IBAN + this.userid;
     this.IBAN = "IE64BAPP" + IBAN;
+
+    //load transactionsDescs.txt into an array
+    var transactionDescs = fs.readFileSync(__dirname + '/transactionDescs.txt').toString().split("\n");
+
+    //generate a random amount of transactions (5-20)
+    var numTransactions = Math.floor(Math.random() * 16) + 5;
+    for (var i = 0; i < numTransactions; i++) {
+        var date = new Date();
+        date.setDate(date.getDate() - i);
+
+        //select a random name from transactionDescs.txt
+        var desc = transactionDescs[Math.floor(Math.random() * transactionDescs.length)];
+
+        //if the desc is PAYSLIP then generate a random amount between 200 and 400
+        if (desc === "PAYSLIP") {
+            var value = (Math.random() * 200 + 200).toFixed(2);
+        } else {
+            //otherwise generate a random amount between -100 and -5
+            var value = (Math.random() * -95 - 5).toFixed(2);
+        }
+
+        console.log("date: " + date + " desc: " + desc + " value: " + value);
+        this.transactions.push({date: date, desc: desc, value: value});
+    }
+
+    //randomly generate a balance between 500 and 2500
+    this.balance = (Math.random() * 2000 + 500).toFixed(2);
+
     next();
 });
 
