@@ -1,87 +1,68 @@
 extends landing-layout
 
+block nav
+  a.nav-link.btn.btn-outline-dark.ms-auto.p-1(href='/register') Register
 block content
+  section.text-center
+    .container.ps-5.pe-5
+      p.text-muted Enter your User ID and your PIN code.
+  section.text-center
+    .container.ps-4.pe-4
+      form#loginform(method='post')
+        .mb-3
+          label.form-label.text-center(for='userid') User ID
+          input.form-control(type='text' id='userid' name='userid')
+          .invalid-feedback User ID is required.
+        .mb-3
+          label.form-label(for='pin') PIN Code
+          input.visually-hidden(type='password' id='pin' name='pin')
+          .d-flex.justify-content-center
+            // Hidden labels for accessibility
+            label.visually-hidden(for='pin1') Pin Digit 1
+            input#pin1.form-control.pin-digit(type='password' maxlength='1')
+            label.visually-hidden(for='pin2') Pin Digit 2
+            input#pin2.form-control.pin-digit(type='password' maxlength='1')
+            label.visually-hidden(for='pin3') Pin Digit 3
+            input#pin3.form-control.pin-digit(type='password' maxlength='1')
+            label.visually-hidden(for='pin4') Pin Digit 4
+            input#pin4.form-control.pin-digit(type='password' maxlength='1')
+            label.visually-hidden(for='pin5') Pin Digit 5
+            input#pin5.form-control.pin-digit(type='password' maxlength='1')
+            label.visually-hidden(for='pin6') Pin Digit 6
+            input#pin6.form-control.pin-digit(type='password' maxlength='1')
+          .invalid-feedback#pin-feedback Invalid PIN.
+        .mb-3
+          button.btn.btn-primary.w-50(type='submit') Sign In
   script.
-    //go to next non disabled input on input, ensure only digit entered - wrote this prior to installing jquery to keep my sanity
-    document.onreadystatechange = function () {
-      if (document.readyState === 'complete') {
-        var pinInputs = document.querySelectorAll('.pin-digit');
-        for(var i = 0; i < pinInputs.length; i++){
-            pinInputs[i].addEventListener("keyup", function() {
-              var ch = this.value;
-              if(ch >= '0' && ch <= '9'){ //ensure it's a digit
-                var next; //if it is, go to the next non-disabled pin input
-                if(this.nextSibling){
-                  next = this.nextSibling;
-                  while(next){
-                    if(next.disabled){
-                      next = next.nextSibling;
-                    } else {
-                      next.focus();
-                      return;
-                    }
-                  }
-                }
-              } else { //delete input if it's not a digit
-                this.value = '';
-              }
-            }
-            )
+    //go to next input when a digit is entered, remove non numeric characters
+    $(".pin-digit").keyup(function () {
+      if (this.value.length == this.maxLength) {
+        if(!$.isNumeric($(this).val())){
+          $(this).val("");
+        } else {
+          $(this).next().focus();
         }
       }
-    }
-  .row.d-flex.justify-content-center
-    .col-12.col-md-8.col-lg-6
-      .card.bg-white
-        .card-body.p-5
-          form#loginform(action='/login', method='post')
-            p.text-center.text-muted Enter your User ID and the remaining PIN digits to sign in.
-            .mb-3
-              label.form-label(for='userid') User ID
-              input.form-control(type='text' id='userid' name='userid')
-              .invalid-feedback Invalid or incorrect User ID.
-            .mb-4
-              label.form-label(for='pin') PIN Code
-              input.visually-hidden(type='password' id='pin' name='pin')
-              - var rand
-              - var required = []
-              // while required.length < 3
-                - rand = Math.floor(Math.random() * 6)
-                unless required.includes(rand)
-                  - required.push(rand)
-              - var n = 0
-              .d-flex.justify-content-center.pin-container
-                while n < 6
-                  if(required.includes(n))
-                    input.form-control.pin-digit(type='password', maxlength="1", disabled, value = " ")
-                  else
-                    input.form-control.pin-digit(type='password', maxlength="1")
-                  - ++n
-              .invalid-feedback#pin-feedback Invalid PIN.
-            button.btn.btn-primary.shadow.d-block.w-100(type='submit') Sign In
-            script.
-              $(".btn-primary").click(function(e) {
-                var isValid = true;
-                var str = "";
-                $("#loginform :input[type=text]").each(function() {
-                  if(this.value == ""){
-                    $(this).addClass('is-invalid');
-                    isValid = false;
-                    e.preventDefault();
-                  } else {
-                    $(this).removeClass('is-invalid');
-                  }
-                })
-                $(".pin-digit").each(function() {
-                  str += this.value;
-                  if(this.value == ""){
-                    $(this).addClass('is-invalid');
-                    $("#pin-feedback").show();
-                    isValid = false;
-                    e.preventDefault();
-                  } else {
-                    $(this).removeClass('is-invalid');
-                  }
-                })
-                $('#pin').val(str);
-              });
+    });
+    $(".btn-primary").click(function(e) {
+      $("#loginform:input:not(#pin)").each(function() {
+        if(this.value == ""){
+          $(this).addClass('is-invalid');
+
+          //check if the input is a pin digit
+          if($(this).hasClass('pin-digit')){
+            $("#pin-feedback").show();
+          }
+
+          e.preventDefault();
+        } else {
+          $(this).removeClass('is-invalid');
+        }
+      })
+      //combine the pin digits into one str for easier handling
+      var str = "";
+        $(".pin-digit").each(function() {
+          str += this.value;
+        })
+      $('#pin').val(str);
+    });

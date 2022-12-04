@@ -1,7 +1,8 @@
 /* Header/Footer Positioning */
 
 main {
-    padding: 80px 15px 80px;
+    margin-top: 58px;
+    padding-top: 2em;
 }
 
 footer {
@@ -12,28 +13,17 @@ footer {
     background-color: #f5f5f5;
 }
 
-/*transaction column styling*/
-.table .tableAmnt {
-    text-align: left;
-    white-space: nowrap;
-    width: 1%;
+section {
+    margin-bottom: 2em;
 }
 
-.table tbody th {
-    text-align: right;
-    white-space: nowrap;
-    width: 1%;
-}
-
-/*tooltip*/
-/* Let the IBAN/BIC tooltip grow more */
-.tooltip .tooltip-inner {
-    max-width: 500px !important;
-    text-align: left;
+form {
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 /* Pin Code Input */
-.pin-digit:first-child {
+.pin-digit:nth-child(2) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
@@ -44,7 +34,7 @@ footer {
     border-left-width: 0;
 }
 
-.pin-digit:not(:first-child):not(:last-child) {
+.pin-digit:not(:nth-child(2)):not(:last-child) {
     border-radius: 0;
     border-left-width: 0;
 }
@@ -57,19 +47,4 @@ footer {
 .pin-digit.is-invalid {
     padding-right: 0.75em;
     background-image: none;
-}
-
-.info-text {
-    display: none;
-    background-color: rgb(175, 175, 175);
-    color: rgb(0, 0, 0);
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    
-    width: 10rem;
-    margin-left: -10rem;
-    margin-top: 1.5rem;
-    position: absolute;
-    z-index: 1;
 }
