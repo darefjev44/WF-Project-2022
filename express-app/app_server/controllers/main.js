@@ -6,8 +6,8 @@ if(process.env.NODE_ENV === 'production'){
     apiOptions.server = '';//TODO Server URL Here
 }
 
-/* Home */
-const _renderHomepage = function(req, res){
+/* Home GET */
+const home = function(req, res){
     var token = req.cookies.token;
     const path = apiOptions.server + '/api/account/' + token;
 
@@ -27,14 +27,6 @@ const _renderHomepage = function(req, res){
                 error: err
             });
         });
-};
-
-const home = function(req, res){
-    if(req.cookies.token){
-        _renderHomepage(req, res);
-    } else{
-        res.redirect('/login');
-    }
 };
 
 /* Login GET */

@@ -75,7 +75,6 @@ module.exports.login = function(req, res) {
         "token" : token
       });
     } else {
-      console.log(info)
       sendJSONresponse(res, 401, info);
     }
   })(req, res);

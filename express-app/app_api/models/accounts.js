@@ -62,7 +62,7 @@ const accountSchema = new mongoose.Schema({
             validator: function(v) {
                 return /^([A-Za-z0-9]{3}\s{0,1}[A-Za-z0-9]{4})$/.test(v);
             },
-            message: props => 'Invalid eircode format.'
+            message: 'Invalid eircode format.'
         },
         required: [true, 'Eircode is required.']
     },
@@ -135,7 +135,6 @@ accountSchema.pre('validate', function(next) {
             var value = (Math.random() * -95 - 5).toFixed(2);
         }
 
-        console.log("date: " + date + " desc: " + desc + " value: " + value);
         this.transactions.push({date: date, desc: desc, value: value});
     }
 
