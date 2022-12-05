@@ -1,20 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-const ctrlMain = require('../controllers/main');
 const ctrlAuth = require('../controllers/authentication');
-
-//admin
-router
-  .route('/admin')
-  .get(ctrlMain.admin)
+const ctrlAccounts = require('../controllers/accounts');
 
 //auth
-router.post('/login', ctrlAuth.login);
-router.post('/register', ctrlAuth.register);
+router.post('/login', ctrlAuth.login); //Returns token as JSON object.
+router.post('/register', ctrlAuth.register); //Creates a new account.
 
-//get account details in token
-router.get('/account/:token', ctrlAuth.account);
-router.get('/transactions/:token', ctrlAuth.transactions);
+//account details
+router.get('/account/:token', ctrlAccounts.account);
+router.get('/transactions/:token', ctrlAccounts.transactions);
 
 module.exports = router;

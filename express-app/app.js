@@ -11,7 +11,18 @@ require('./app_api/config/passport');
 const apiRoutes = require('./app_api/routes/index');
 const appRoutes = require('./app_server/routes/index');
 
-var app = express();
+//SSL
+var fs = require('fs');
+var http = require('http');
+var https = require('https');
+var privateKey  = fs.readFileSync('./sslcert/key.pem', 'utf8');
+var certificate = fs.readFileSync('./sslcert/cert.pem', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+const app = express();
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+httpServer.listen(8000);
+httpsServer.listen(443);
 
 // add jquery
 app.use('/jquery', express.static('./node_modules/jquery/dist/'));

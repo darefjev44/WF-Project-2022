@@ -10,18 +10,16 @@ var sendJSONresponse = function(res, status, content) {
 //function to get next available user id
 async function getNextUserid(){
   var accounts = await Account.find().sort({userid:-1}).limit(1).exec();
+
+  if(accounts.length == 0){
+    return Math.floor(Math.random() * 10000) + 5000;
+  }
+
   return accounts[0].userid+1; 
 }
   
 
 module.exports.register = function(req, res) {
-  if(!req.body.firstName || !req.body.lastName || !req.body.address || !req.body.town || !req.body.county || !req.body.eircode) {
-    sendJSONresponse(res, 400, {
-      "message": "All fields are required."
-    });
-    return;
-  }
-
   var account = new Account();
 
   //query to get next available user id then do rest when getNextUserid returns
@@ -34,39 +32,45 @@ module.exports.register = function(req, res) {
     account.county = req.body.county;
     account.eircode = req.body.eircode;
 
-    account.save(function(err) {
-      var token;
+    var pin = Math.floor(Math.random() * 1000000);
+    pin = pin.toString().padStart(6, '0');
+    account.setPin(pin);
+
+    //validate account
+    var mongooseResponse = account.validateSync();
+    if(mongooseResponse){
+      sendJSONresponse(res, 400, mongooseResponse.errors);
+    } else {
+      account.save(function(err) {
       if(err) {
-        console.log(err)
         sendJSONresponse(res, 404, err);
       } else {
-        token = account.generateJwt();
         sendJSONresponse(res, 200, {
-          "token" : token
+          "userid" : account.userid,
+          "pin" : pin
         });
       }
     });
+    }
   });
 };
 
 module.exports.login = function(req, res) {
   if(!req.body.userid || !req.body.pin) {
     sendJSONresponse(res, 400, {
-      "message": "All fields required"
+      "message": "All fields are required."
     });
     return;
   }
 
   passport.authenticate('local', function(err, account, info){
-    var token;
-
     if (err) {
       sendJSONresponse(res, 404, err);
       return;
     }
 
     if(account){
-      token = account.generateJwt();
+      var token = account.generateJwt();
       sendJSONresponse(res, 200, {
         "token" : token
       });
@@ -74,33 +78,4 @@ module.exports.login = function(req, res) {
       sendJSONresponse(res, 401, info);
     }
   })(req, res);
-
-};
-
-var jwt = require('jsonwebtoken');
-
-module.exports.account = function(req, res) {
-  var decoded = jwt.verify(req.params.token, process.env.JWT_SECRET);
-
-  //find account by _id
-  Account.findById(decoded.account._id, function(err, account) {
-    if(err) {
-      sendJSONresponse(res, 404, err);
-    } else {
-      sendJSONresponse(res, 200, account);
-    }
-  });
-};
-
-module.exports.transactions = function(req, res) {
-  var decoded = jwt.verify(req.params.token, process.env.JWT_SECRET);
-
-  //find account by _id
-  Account.findById(decoded.account._id, function(err, account) {
-    if(err) {
-      sendJSONresponse(res, 404, err);
-    } else {
-      sendJSONresponse(res, 200, account.transactions);
-    }
-  });
 };

@@ -8,20 +8,31 @@ html
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3' crossorigin='anonymous')
     script(src="https://use.fontawesome.com/4c115c132a.js")
     script(src="/jquery/jquery.js")
-    block headextras
   body.bg-light
-    nav.navbar.navbar-dark.navbar-expand-md.bg-dark.fixed-top
-      .container
-        a.navbar-brand.d-flex.align-items-center(href='/')
-          span.bs-icon.me-2
-            img(src="/images/banklogo.svg", height="32px", width="32px")
-          span #{name}
-        ul.navbar-nav.ms-auto
-          block navigation
-        a.btn.btn-primary.ms-md-2.collapse.collapsenav.show(role='button' href='/login') Sign Out
-    main.container.d-flex.justify-content-center
+    nav.navbar.navbar-dark.bg-dark.fixed-top.navbar-expand-lg
+      .container.text-light
+        button.navbar-toggler.me-auto(data-bs-toggle='collapse' data-bs-target='#navbarNav')
+          span.visually-hidden Toggle Navigation
+          span.navbar-toggler-icon
+        - var tooltipText = "<span class='ttInfo'>IBAN: " + account.IBAN + "</br> BIC: " + account.BIC + "</span><br>Click to copy!"
+        - var onclickevent = "copyDetails('" + account.IBAN + "','" + account.BIC + "');"
+        i.nav-link.fa.fa-info-circle.me-4#infoIcon.order-lg-2(onclick=onclickevent data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title=tooltipText data-bs-html="true" data-bs-custom-class="ttClass")
+        a.nav-link.btn.btn-outline-light.p-2.order-lg-3(href='/logout') Sign Out
+        #navbarNav.collapse.navbar-collapse.order-lg-1
+          ul.navbar-nav.me-auto.mb-lg-0
+            block navigation
+    main
         block content
-    footer.text-center.bg-dark.fixed-bottom
-      .container.text-white
-        span.text-muted &copy; 2022 #{name}
 block scripts
+script.
+  $(document).ready(function () {
+    var tooltipTriggerList = $('[data-bs-toggle="tooltip"]')
+    var tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+  })
+  function copyDetails(iban, bic){
+    var detailsStr =
+      `My details are: 
+      IBAN: ${iban}
+      BIC: ${bic}`;
+    navigator.clipboard.writeText(detailsStr);
+  }
