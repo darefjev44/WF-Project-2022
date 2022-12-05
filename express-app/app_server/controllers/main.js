@@ -3,7 +3,7 @@ const apiOptions = {
     server: 'http://localhost:3000'
 };
 if(process.env.NODE_ENV === 'production'){
-    apiOptions.server = '';//TODO Server URL Here
+    apiOptions.server = 'http://bankapp-wf-project.herokuapp.com/';//TODO Server URL Here
 }
 
 /* Home GET */
