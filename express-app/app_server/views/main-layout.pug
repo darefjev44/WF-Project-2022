@@ -14,9 +14,8 @@ html
         button.navbar-toggler.me-auto(data-bs-toggle='collapse' data-bs-target='#navbarNav')
           span.visually-hidden Toggle Navigation
           span.navbar-toggler-icon
-        - var tooltipText = "<span class='ttInfo'>IBAN: " + account.IBAN + "</br> BIC: " + account.BIC + "</span><br>Click to copy!"
-        - var onclickevent = "copyDetails('" + account.IBAN + "','" + account.BIC + "');"
-        i.nav-link.fa.fa-info-circle.me-4#infoIcon.order-lg-2(onclick=onclickevent data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title=tooltipText data-bs-html="true" data-bs-custom-class="ttClass")
+        - var tooltipText = "IBAN: " + account.IBAN + "</br> BIC: " + account.BIC + "<br>Click to copy!"
+        i.nav-link.fa.fa-info-circle.me-4#infoIcon.order-lg-2(data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title=tooltipText data-bs-html="true" data-bs-custom-class="ttClass")
         a.nav-link.btn.btn-outline-light.p-2.order-lg-3(href='/logout') Sign Out
         #navbarNav.collapse.navbar-collapse.order-lg-1
           ul.navbar-nav.me-auto.mb-lg-0
@@ -25,14 +24,16 @@ html
         block content
 block scripts
 script.
+  var detailsStr =
+    `My details are: 
+    IBAN: #{account.IBAN}
+    BIC: #{account.BIC}`;
+
   $(document).ready(function () {
     var tooltipTriggerList = $('[data-bs-toggle="tooltip"]')
     var tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+      
+    $('#infoIcon').click(function () {
+      navigator.clipboard.writeText(detailsStr);
+    });
   })
-  function copyDetails(iban, bic){
-    var detailsStr =
-      `My details are: 
-      IBAN: ${iban}
-      BIC: ${bic}`;
-    navigator.clipboard.writeText(detailsStr);
-  }
